@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   check-cache:
-    runs-on: ubuntu-latest
+    runs-on: compiler-8cpu
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -27,7 +27,7 @@ jobs:
           yarn install --immutable --immutable-cache --check-cache
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: compiler-8cpu
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -61,7 +61,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [20, 26]
-        os: [ubuntu-latest, windows-latest]
+        os: [compiler-8cpu, windows-latest]
         exclude:
           - node-version: 20
             os: windows-latest
@@ -92,7 +92,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [20, 26]
-        os: [ubuntu-latest, windows-latest]
+        os: [compiler-8cpu, windows-latest]
         exclude:
           - node-version: 20
             os: windows-latest
@@ -148,7 +148,7 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/pw-browsers
         run: |
-          node ./scripts/ci/install-playwright-chromium.mjs ${{ matrix.os == 'ubuntu-latest' && '--with-deps' || '' }}
+          node ./scripts/ci/install-playwright-chromium.mjs ${{ matrix.os == 'compiler-8cpu' && '--with-deps' || '' }}
 
       - name: Run suite tests
         env:
@@ -169,7 +169,7 @@ jobs:
   report:
     needs: [test-suite]
     name: Build report
-    runs-on: ubuntu-latest
+    runs-on: compiler-8cpu
     if: always()
     permissions:
       contents: read
